@@ -1,7 +1,8 @@
 import torch
 import random
 import numpy as np
-from astropy.io.misc.asdf.connect import asdf_identify
+import os
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 
 # 1. 데이터를 생성
 
@@ -67,7 +68,7 @@ def get_weights():
 
     :return:
     """
-    w = torch.randn(1)
+    w = torch.randn(1) # randn --> return float
     w.requires_grad = True
     b = torch.randn(1)
     w.requires_grad = True
@@ -85,9 +86,42 @@ def simple_network(x, w, b):
     입력 x: N*1 matrix ==> 20x1
     :return:
     """
-    y_pred = torch.matmul(x, w) + b
+    y_pred = torch.matmul(x, w.double()) + b
 
     return y_pred
+
+"""
+손실함수 정의
+func : loss_func(y, y_pred)
+define : in, out
+function descript
+"""
+def loss_func(y, y_pred):
+    loss = torch.mean((y - y_pred).pow(2).sum())
+
+    for param in [w, b]:
+        if param.grad is not None :
+            param.grad.data.zero_()
+
+
+    loss.backward()
+
+    return loss.data
+
+"""
+update param
+"""
+
+def update_param(lr):
+    w.data = w.data - lr * w.grad.data
+    b.data = lr * w.grad.data
+
+import matplotlib.pyplot as plt
+## plot
+def plot_variable(x, y, z='', **kwargs):
+    x_data = x.data
+    y_data = y.data
+    plt.plot(x_data, y_data, z, **kwargs)
 
 ##################################
 # main 실행 부분
@@ -109,6 +143,33 @@ if __name__ == '__main__':
 
     #3. 학습 루프
     num_epochs = 1000
+    lr = 1e-6
+    loss_x = []
+    loss_y = []
     for epoch in range(num_epochs):
         # 가설 함수 예측 값
         y_pred = simple_network(train_x, w, b)
+
+        # loss 값 구하고 미분 한번 수행
+        loss = loss_func(train_y, y_pred)
+        loss_x.append(epoch)
+        loss_y.append(loss)
+        # loss 값 체크
+        if epoch % 100 == 0:
+            print(f"Epoch : {epoch}, loss : {loss:.4f}, w : {w.data}, b : {b.data}")
+        # param update : 최적의 기울기, y 절편을 찾아 가는 것
+        update_param(lr)
+
+    # 결과 시각화
+    plot_variable(train_x, train_y, 'ro', label='Data')
+    plot_variable(train_x, y_pred, label='Fitted Line')
+    plt.legend()
+    plt.title("linear Regression Fitting Result")
+    plt.show()
+
+    # loss 결과
+    plt.plot(loss_x, loss_y)
+    plt.title("Loss over the Epochs")
+    plt.xlabel("epochs")
+    plt.ylabel("loss")
+    plt.show()
