@@ -98,4 +98,17 @@ def simple_network(x, w, b):
 ##################################
 if __name__ == '__main__':
     # 1.
-    ㅅ
+    train_x, train_y = get_data()
+    print(f'Shape of train_x : {train_x.shape}')
+    print(f'Shape of train_y : {train_y.shape}')
+
+    #2.
+    w, b = get_weights()
+    print(f'initial weight : {w}')
+    print(f'initial bias : {b}')
+
+    #3. 학습 루프
+    num_epochs = 1000
+    for epoch in range(num_epochs):
+        # 가설 함수 예측 값
+        y_pred = simple_network(train_x, w, b)
