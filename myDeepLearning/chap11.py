@@ -2,8 +2,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from myDeepLearning.chap10 import history
-
 df = pd.read_csv('./data/pima-indians-diabetes3.csv')
 
 print(df.head(5)) # 위에서 부터 5개
