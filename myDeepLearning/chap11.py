@@ -34,7 +34,7 @@ plt.show()
 plt.hist(x=[df.plasma[df.diabetes==0], df.plasma[df.diabetes==1]], bins=30, histtype='barstacked', label=['normal', 'diabetes'])
 '''
 plt.hist : 히스토그램 생성
-x=[df.plasma[df.diabetes==0], df.plasma[df.diabetes==1]] : x축에 어떤 요소를 불러올지 설정(위의 경우는 당요가 있냐/없냐 의 두개의 경우를 불러옴)
+x=[df.plasma[df.diabetes==0], df.plasma[df.diabetes==1]] : x축에 어떤 요소를 불러올지 설정(위의 경우는 당뇨가 있냐/없냐 의 두개의 경우를 불러옴)
     여기서 df.plasma <- 이 plasma 위치가 기준으로 할 속성의 위치
 bins : 하나의 그래프 안에 들어갈 막대의 개수
 histtype : barstacked(두개의 그래프가 하나로 합쳐서 나오게 설정) 등 그래프의 타입을 정하는듯 함
