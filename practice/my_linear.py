@@ -48,9 +48,8 @@ model = Sequential()
 model.add(Dense(1, input_dim=1, activation='linear'))
 
 model.compile(optimizer=SGD(learning_rate=1e-6), loss='mse')
-model.fit(x.numpy(), y.numpy(), epochs=2000) # TensorFlow 모델은 TensorFlow 텐서 또는 NumPy 배열이 필요하다
+model.fit(x.numpy(), y.numpy(), epochs=15000) # TensorFlow 모델은 TensorFlow 텐서 또는 NumPy 배열이 필요하다
 
 plt.scatter(x, y)
 plt.plot(x, model.predict(x),'r')
 plt.show()
-
