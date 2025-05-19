@@ -12,6 +12,39 @@ df = pd.read_csv('./data/pima-indians-diabetes3.csv')
 x_data = df.iloc[:, 0:8].values.astype(np.float32)  # 입력 8개
 y_data = df.iloc[:, 8].values.astype(np.float32).reshape(-1, 1)  # 출력 1개 (binary)
 
+'''
+| 코드                    | 설명                          |
+| --------------------- | --------------------------- |
+| `df.iloc[:, 0:8]`     | DataFrame에서 입력용 열(0\~7번) 선택 |
+| `.values`             | Pandas → Numpy 배열로 변환       |
+| `.astype(np.float32)` | float64 → float32 형으로 변환    |
+
+'''
+
+
+'''
+import numpy as np
+
+a = np.array([1, 2, 3, 4])  # shape: (4,) → 1차원
+b = a.reshape(-1, 1)        # shape: (4, 1) → 2차원
+
+print(b)
+# [[1]
+#  [2]
+#  [3]
+#  [4]]
+
+
+-1은 자동으로 크기 계산해줘! 라는 의미
+
+1은 열(column)의 개수를 지정한 것
+
+즉,
+
+"행 개수는 모르겠고 열 1개짜리 2차원 배열로 바꿔줘"
+
+라는 뜻
+'''
 # 2. 텐서로 변환
 x_tensor = torch.tensor(x_data)
 y_tensor = torch.tensor(y_data)
